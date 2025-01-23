@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>All Orders</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f5f5f5;
+        margin: 0;
+        padding: 20px;
+      }
+
+      h1 {
+        text-align: center;
+        color: #333;
+      }
+
+      .orders-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 20px;
+        margin-top: 20px;
+      }
+
+      .order-card {
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        width: 300px;
+        padding: 20px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      }
+
+      .order-card h2 {
+        margin-top: 0;
+        color: #007bff;
+      }
+
+      .order-field {
+        margin-bottom: 10px;
+      }
+
+      .order-field strong {
+        display: inline-block;
+        width: 120px;
+        color: #555;
+      }
+
+      .design-photo {
+        text-align: center;
+        margin-top: 15px;
+      }
+
+      .design-photo img {
+        max-width: 100%;
+        height: auto;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+      }
+
+      .no-photo {
+        color: #888;
+        font-style: italic;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 600px) {
+        .order-card {
+          width: 90%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h1>All Orders</h1>
+    <div class="orders-container" id="orders"></div>
+
+    <script>
+      // Function to convert byte array to Base64 string
+      function bufferToBase64(bufferArray) {
+        let binary = '';
+        const bytes = new Uint8Array(bufferArray);
+        bytes.forEach((b) => (binary += String.fromCharCode(b)));
+        return window.btoa(binary);
+      }
+
+      // Function to format date strings
+      function formatDate(dateString) {
+        const options = {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit',
+        };
+        const date = new Date(dateString);
+        return date.toLocaleDateString(undefined, options);
+      }
+
+      // Function to fetch and display orders
+      async function fetchAndDisplayOrders() {
+        try {
+          const response = await fetch('http://localhost:3000/orders');
+          if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+          const orders = await response.json();
+
+          const ordersContainer = document.getElementById('orders');
+
+          if (orders.length === 0) {
+            ordersContainer.innerHTML = '<p>No orders found.</p>';
+            return;
+          }
+
+          orders.forEach((order) => {
+            // Create order card
+            const orderCard = document.createElement('div');
+            orderCard.className = 'order-card';
+
+            // Order Name
+            const orderName = document.createElement('h2');
+            orderName.textContent = order.orderName;
+            orderCard.appendChild(orderName);
+
+            // Order ID
+            const orderId = document.createElement('div');
+            orderId.className = 'order-field';
+            orderId.innerHTML = `<strong>Order ID:</strong> ${order.id}`;
+            orderCard.appendChild(orderId);
+
+            // Placed Date
+            const placedDate = document.createElement('div');
+            placedDate.className = 'order-field';
+            placedDate.innerHTML = `<strong>Placed Date:</strong> ${formatDate(order.placedDate)}`;
+            orderCard.appendChild(placedDate);
+
+            // Quantity
+            const quantity = document.createElement('div');
+            quantity.className = 'order-field';
+            quantity.innerHTML = `<strong>Quantity:</strong> ${order.quantity}`;
+            orderCard.appendChild(quantity);
+
+            // Weight
+            const weight = document.createElement('div');
+            weight.className = 'order-field';
+            weight.innerHTML = `<strong>Weight:</strong> ${order.weight} kg`;
+            orderCard.appendChild(weight);
+
+            // Length
+            const length = document.createElement('div');
+            length.className = 'order-field';
+            length.innerHTML = `<strong>Length:</strong> ${order.length} cm`;
+            orderCard.appendChild(length);
+
+            // Current Status
+            const currentStatus = document.createElement('div');
+            currentStatus.className = 'order-field';
+            currentStatus.innerHTML = `<strong>Current Status:</strong> ${order.currentStatus}`;
+            orderCard.appendChild(currentStatus);
+
+            // Design Photo
+            const designPhotoContainer = document.createElement('div');
+            designPhotoContainer.className = 'design-photo';
+
+            if (
+              order.designPhoto &&
+              order.designPhoto.data &&
+              order.designPhoto.data.length > 0
+            ) {
+              const base64String = bufferToBase64(order.designPhoto.data);
+              // Attempt to detect image type (optional enhancement)
+              // For simplicity, assuming PNG. Adjust if necessary.
+              const img = document.createElement('img');
+              img.src = `data:image/png;base64,${base64String}`;
+              img.alt = `${order.orderName} Design Photo`;
+              designPhotoContainer.appendChild(img);
+            } else {
+              const noPhoto = document.createElement('div');
+              noPhoto.className = 'no-photo';
+              noPhoto.textContent = 'No design photo uploaded.';
+              designPhotoContainer.appendChild(noPhoto);
+            }
+
+            orderCard.appendChild(designPhotoContainer);
+
+            // Append the order card to the container
+            ordersContainer.appendChild(orderCard);
+          });
+        } catch (error) {
+          console.error('Error fetching orders:', error);
+          const ordersContainer = document.getElementById('orders');
+          ordersContainer.innerHTML =
+            '<p>Error fetching orders. Please try again later.</p>';
+        }
+      }
+
+      // Fetch and display orders when the page loads
+      document.addEventListener('DOMContentLoaded', fetchAndDisplayOrders);
+    </script>
+  </body>
+</html>

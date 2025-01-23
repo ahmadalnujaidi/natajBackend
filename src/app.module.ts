@@ -4,6 +4,8 @@ import { OrdersModule } from './orders/orders.module';
 import { Order } from './orders/order.entity';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { StatusUpdate } from './orders/status-update.entity';
+import { ChatMessage } from './orders/chat-message.entity';
 
 @Module({
   imports: [
@@ -13,7 +15,7 @@ import { AppService } from './app.service';
       ssl: {
         rejectUnauthorized: false,
       },
-      entities: [Order],
+      entities: [Order, StatusUpdate, ChatMessage],
       synchronize: true,
     }),
     OrdersModule,

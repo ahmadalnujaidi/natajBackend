@@ -8,27 +8,34 @@ import { Order } from './order.entity';
 export class OrdersService {
   constructor(
     @InjectRepository(Order)
-    private orderRepository: Repository<Order>,
+    private readonly orderRepository: Repository<Order>,
   ) {}
 
-  async createOrder(
-    productName: string,
-    quantity: number,
-    weight: number,
-    length: number,
-    designPhoto?: Buffer,
-  ): Promise<Order> {
-    const newOrder = this.orderRepository.create({
-      productName,
-      quantity,
-      weight,
-      length,
-      designPhoto: designPhoto || null,
-    });
+  async createOrder(data: Partial<Order>): Promise<Order> {
+    const newOrder = this.orderRepository.create(data);
     return this.orderRepository.save(newOrder);
   }
 
-  async getAllOrders(): Promise<Order[]> {
-    return this.orderRepository.find();
+  async findAll(): Promise<Order[]> {
+    // Also load statusUpdates if you want them included
+    return this.orderRepository.find({
+      relations: ['statusUpdates'],
+    });
+  }
+
+  async findOne(orderId: string): Promise<Order> {
+    return this.orderRepository.findOne({
+      where: { id: orderId },
+      relations: ['statusUpdates'],
+    });
+  }
+
+  async updateOrderStatus(orderId: string, status: string): Promise<Order> {
+    const order = await this.orderRepository.findOneBy({ id: orderId });
+    if (!order) {
+      throw new Error('Order not found');
+    }
+    order.currentStatus = status;
+    return this.orderRepository.save(order);
   }
 }

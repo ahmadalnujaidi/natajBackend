@@ -1,13 +1,17 @@
 // src/orders/order.entity.ts
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
+import { StatusUpdate } from './status-update.entity';
 
-@Entity()
+@Entity('orders')
 export class Order {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Column()
-  productName: string;
+  orderName: string;
+
+  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  placedDate: Date;
 
   @Column('int')
   quantity: number;
@@ -18,7 +22,17 @@ export class Order {
   @Column('float')
   length: number;
 
-  // We'll store the image in a binary column
+  // e.g. "Received", "Production", "Quality Check", "Shipped", "Delivered", etc.
+  @Column({ default: 'Received' })
+  currentStatus: string;
+
+  // We'll store the design photo in a bytea column
   @Column({ type: 'bytea', nullable: true })
   designPhoto: Buffer | null;
+
+  // Relationship: One Order has many StatusUpdates
+  @OneToMany(() => StatusUpdate, (statusUpdate) => statusUpdate.order, {
+    cascade: true,
+  })
+  statusUpdates: StatusUpdate[];
 }
