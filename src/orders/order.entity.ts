@@ -1,5 +1,12 @@
 // src/orders/order.entity.ts
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  CreateDateColumn,
+  UpdateDateColumn,
+  OneToMany,
+} from 'typeorm';
 import { StatusUpdate } from './status-update.entity';
 
 @Entity('orders')
@@ -10,27 +17,31 @@ export class Order {
   @Column()
   orderName: string;
 
-  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  @Column()
+  buyerName: string;
+
+  // Auto-generated timestamp when the order is placed
+  @CreateDateColumn()
   placedDate: Date;
+
+  // Auto-updated timestamp if the order record changes
+  @UpdateDateColumn()
+  updatedDate: Date;
 
   @Column('int')
   quantity: number;
 
-  @Column('float')
-  weight: number;
-
-  @Column('float')
-  length: number;
+  @Column()
+  amount: number;
 
   // e.g. "Received", "Production", "Quality Check", "Shipped", "Delivered", etc.
   @Column({ default: 'Received' })
   currentStatus: string;
 
-  // We'll store the design photo in a bytea column
-  @Column({ type: 'bytea', nullable: true })
-  designPhoto: Buffer | null;
+  @Column()
+  deadline: string;
 
-  // Relationship: One Order has many StatusUpdates
+  // Relationship: One Order -> Many StatusUpdates
   @OneToMany(() => StatusUpdate, (statusUpdate) => statusUpdate.order, {
     cascade: true,
   })

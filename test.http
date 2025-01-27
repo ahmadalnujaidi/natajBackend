@@ -1,0 +1,7 @@
+POST http://localhost:3000/steps
+Content-Type: application/json
+
+{
+    "stepName" : "step A",
+    "stepDesc" : "step A description"
+}

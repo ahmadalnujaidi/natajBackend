@@ -6,6 +6,8 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { StatusUpdate } from './orders/status-update.entity';
 import { ChatMessage } from './orders/chat-message.entity';
+import { StepsModule } from './steps/steps.module';
+import { Step } from './steps/step.entity';
 
 @Module({
   imports: [
@@ -15,10 +17,11 @@ import { ChatMessage } from './orders/chat-message.entity';
       ssl: {
         rejectUnauthorized: false,
       },
-      entities: [Order, StatusUpdate, ChatMessage],
+      entities: [Order, StatusUpdate, ChatMessage, Step],
       synchronize: true,
     }),
     OrdersModule,
+    StepsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
