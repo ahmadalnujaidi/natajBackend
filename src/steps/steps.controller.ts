@@ -14,11 +14,13 @@ import { Step } from './step.entity';
 class CreateStepDto {
   stepName: string;
   stepDesc: string;
+  stepNumber: string;
 }
 
 class UpdateStepDto {
   stepName: string;
   stepDesc: string;
+  stepNumber: string;
 }
 
 @Controller('steps')
@@ -28,7 +30,7 @@ export class StepsController {
   // CREATE
   @Post()
   async createStep(@Body() dto: CreateStepDto): Promise<Step> {
-    return this.stepsService.create(dto.stepName, dto.stepDesc);
+    return this.stepsService.create(dto.stepName, dto.stepDesc, dto.stepNumber);
   }
 
   // READ (all)
@@ -49,7 +51,12 @@ export class StepsController {
     @Param('id') id: string,
     @Body() dto: UpdateStepDto,
   ): Promise<Step> {
-    return this.stepsService.update(id, dto.stepName, dto.stepDesc);
+    return this.stepsService.update(
+      id,
+      dto.stepName,
+      dto.stepDesc,
+      dto.stepNumber,
+    );
   }
 
   // DELETE

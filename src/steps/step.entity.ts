@@ -18,6 +18,9 @@ export class Step {
   @Column()
   stepDesc: string;
 
+  @Column()
+  stepNumber: string;
+
   @CreateDateColumn()
   createdAt: Date;
 

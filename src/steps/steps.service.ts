@@ -12,8 +12,12 @@ export class StepsService {
   ) {}
 
   // CREATE
-  async create(stepName: string, stepDesc: string): Promise<Step> {
-    const step = this.stepRepo.create({ stepName, stepDesc });
+  async create(
+    stepName: string,
+    stepDesc: string,
+    stepNumber: string,
+  ): Promise<Step> {
+    const step = this.stepRepo.create({ stepName, stepDesc, stepNumber });
     return this.stepRepo.save(step);
   }
 
@@ -28,13 +32,19 @@ export class StepsService {
   }
 
   // UPDATE
-  async update(id: string, stepName: string, stepDesc: string): Promise<Step> {
+  async update(
+    id: string,
+    stepName: string,
+    stepDesc: string,
+    stepNumber: string,
+  ): Promise<Step> {
     const step = await this.stepRepo.findOneBy({ id });
     if (!step) {
       throw new Error(`Step with ID ${id} not found.`);
     }
     step.stepName = stepName;
     step.stepDesc = stepDesc;
+    step.stepNumber = stepNumber;
     return this.stepRepo.save(step);
   }
 
