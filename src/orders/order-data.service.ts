@@ -38,6 +38,10 @@ export class OrderDataService {
     });
   }
 
+  async findAllGlobal(): Promise<OrderData[]> {
+    return this.orderDataRepo.find();
+  }
+
   // GET one by ID
   async findOne(id: string): Promise<OrderData> {
     return this.orderDataRepo.findOneBy({ id });

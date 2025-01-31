@@ -21,3 +21,7 @@ Content-Type: application/json
     "delayPrediction": 0.2,
     "defectPrediction": "Low"
 }
+
+
+###
+GET http://localhost:3000/order-data

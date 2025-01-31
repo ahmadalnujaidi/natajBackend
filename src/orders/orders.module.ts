@@ -13,6 +13,7 @@ import { ChatMessagesService } from './chat-messages.service';
 import { OrderDataController } from './order-data.controller';
 import { OrderData } from './order-data.entity';
 import { OrderDataService } from './order-data.service';
+import { GlobalOrderDataController } from './global-order-data.controller';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { OrderDataService } from './order-data.service';
     StatusUpdatesController,
     ChatMessagesController,
     OrderDataController,
+    GlobalOrderDataController,
   ],
   providers: [
     OrdersService,
