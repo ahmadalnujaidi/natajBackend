@@ -5,3 +5,19 @@ Content-Type: application/json
     "stepName" : "step A",
     "stepDesc" : "step A description"
 }
+
+###
+POST http://localhost:3000/orders/7c3014de-8f01-4573-80d6-012e2441f5b6/data
+Content-Type: application/json
+
+{
+    "weight": 12.5,
+    "temperature": 80.3,
+    "speed": 120,
+    "processTime": 35,
+    "components": 5,
+    "efficiency": 0.87,
+    "quantity": 100,
+    "delayPrediction": 0.2,
+    "defectPrediction": "Low"
+}

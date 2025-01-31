@@ -8,6 +8,7 @@ import { StatusUpdate } from './orders/status-update.entity';
 import { ChatMessage } from './orders/chat-message.entity';
 import { StepsModule } from './steps/steps.module';
 import { Step } from './steps/step.entity';
+import { OrderData } from './orders/order-data.entity';
 
 @Module({
   imports: [
@@ -17,7 +18,7 @@ import { Step } from './steps/step.entity';
       ssl: {
         rejectUnauthorized: false,
       },
-      entities: [Order, StatusUpdate, ChatMessage, Step],
+      entities: [Order, StatusUpdate, ChatMessage, Step, OrderData],
       synchronize: true,
     }),
     OrdersModule,

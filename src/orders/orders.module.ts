@@ -10,14 +10,25 @@ import { StatusUpdatesService } from './status-updates.service';
 import { ChatMessage } from './chat-message.entity';
 import { ChatMessagesController } from './chat-messages.controller';
 import { ChatMessagesService } from './chat-messages.service';
+import { OrderDataController } from './order-data.controller';
+import { OrderData } from './order-data.entity';
+import { OrderDataService } from './order-data.service';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Order, StatusUpdate, ChatMessage])],
+  imports: [
+    TypeOrmModule.forFeature([Order, StatusUpdate, ChatMessage, OrderData]),
+  ],
   controllers: [
     OrdersController,
     StatusUpdatesController,
     ChatMessagesController,
+    OrderDataController,
   ],
-  providers: [OrdersService, StatusUpdatesService, ChatMessagesService],
+  providers: [
+    OrdersService,
+    StatusUpdatesService,
+    ChatMessagesService,
+    OrderDataService,
+  ],
 })
 export class OrdersModule {}
