@@ -10,6 +10,8 @@ import { StepsModule } from './steps/steps.module';
 import { Step } from './steps/step.entity';
 import { OrderData } from './order-data/order-data.entity';
 import { OrderDataModule } from './order-data/order-data.module';
+import { StockModule } from './stock/stock.module';
+import { Stock } from './stock/stock.entity';
 
 @Module({
   imports: [
@@ -19,12 +21,13 @@ import { OrderDataModule } from './order-data/order-data.module';
       ssl: {
         rejectUnauthorized: false,
       },
-      entities: [Order, StatusUpdate, ChatMessage, Step, OrderData],
+      entities: [Order, StatusUpdate, ChatMessage, Step, OrderData, Stock],
       synchronize: true,
     }),
     OrdersModule,
     StepsModule,
     OrderDataModule,
+    StockModule,
   ],
   controllers: [AppController],
   providers: [AppService],

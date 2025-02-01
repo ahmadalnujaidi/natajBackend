@@ -40,3 +40,14 @@ Content-Type: application/json
     "defectPrediction": "50%",
     "orderIdStr": "ORD2025XYZ"
 }
+
+### 
+POST http://localhost:3000/stocks
+Content-Type: application/json
+
+{
+    "name": "Steel Rods",
+    "place": "Warehouse A",
+    "weight": 500.5,
+    "quantity": null
+}
