@@ -8,7 +8,8 @@ import { StatusUpdate } from './orders/status-update.entity';
 import { ChatMessage } from './orders/chat-message.entity';
 import { StepsModule } from './steps/steps.module';
 import { Step } from './steps/step.entity';
-import { OrderData } from './orders/order-data.entity';
+import { OrderData } from './order-data/order-data.entity';
+import { OrderDataModule } from './order-data/order-data.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { OrderData } from './orders/order-data.entity';
     }),
     OrdersModule,
     StepsModule,
+    OrderDataModule,
   ],
   controllers: [AppController],
   providers: [AppService],

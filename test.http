@@ -24,4 +24,19 @@ Content-Type: application/json
 
 
 ###
-GET http://localhost:3000/order-data
+POST http://localhost:3000/order-data
+Content-Type: application/json
+
+{
+    "orderID": "111111111-111111111111-111111111111",
+    "Weight": 150.5,
+    "Temperature": 80,
+    "Speed": 12,
+    "processTime": 3.5,
+    "Components": 25,
+    "Efficiency": 99.2,
+    "Quantity": 500,
+    "delayPrediction": 0.4,
+    "defectPrediction": "50%",
+    "orderIdStr": "ORD2025XYZ"
+}
