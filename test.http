@@ -51,3 +51,6 @@ Content-Type: application/json
     "weight": 500.5,
     "quantity": null
 }
+
+###
+GET http://localhost:3000/stocks

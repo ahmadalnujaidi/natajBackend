@@ -12,12 +12,18 @@ import { OrderData } from './order-data/order-data.entity';
 import { OrderDataModule } from './order-data/order-data.module';
 import { StockModule } from './stock/stock.module';
 import { Stock } from './stock/stock.entity';
+import { ConfigModule } from '@nestjs/config';
+
+ConfigModule.forRoot({
+  envFilePath: '.env',
+});
+const DATABASE_URL = process.env.DATABASE_URL;
 
 @Module({
   imports: [
     TypeOrmModule.forRoot({
       type: 'postgres',
-      url: 'postgres://b2bdb_6chi_user:cKyARII4iCKyFc6Vbe5QuluWHYRhqvGQ@dpg-cu8h6lggph6c73cpk0s0-a.frankfurt-postgres.render.com/b2bdb_6chi',
+      url: DATABASE_URL,
       ssl: {
         rejectUnauthorized: false,
       },
